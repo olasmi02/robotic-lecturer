@@ -3,7 +3,7 @@ import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { UploadCloud, FileText, Send, Sparkles, Loader2, Headphones, Play, Square, FileCheck, ClipboardList, Mic, X } from 'lucide-react';
 
-const API_BASE = "http://localhost:8001";
+const API_BASE = "https://robotic-lecturer.onrender.com";
 
 // Safely initialize SpeechRecognition
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
