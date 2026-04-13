@@ -41,6 +41,8 @@ Mark is the main explainer (intelligent, enthusiastic, male persona).
 Sarah is the curious co-host (asks great questions, summarizes points, reacts with amazement, female persona).
 
 Make the conversation flow naturally and cover the primary key themes of the context. 
+Keep the podcast script concise and short! Generate a MAXIMUM of 6 lines of dialogue in total!
+
 The output MUST be a strict JSON array of objects, where each object has 'speaker' (Mark or Sarah) and 'text' (what they say).
 Example:
 [
