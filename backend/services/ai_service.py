@@ -81,28 +81,25 @@ audio_interrupt_prompt = ChatPromptTemplate.from_template(audio_interrupt_templa
 
 
 async def text_to_base64_audio(text: str, voice: str) -> str:
-    communicate = edge_tts.Communicate(text, voice, rate="+15%")
-    audio_data = b""
-    async for chunk in communicate.stream():
-        if chunk["type"] == "audio":
-            audio_data += chunk["data"]
-    return base64.b64encode(audio_data).decode("utf-8")
+    try:
+        communicate = edge_tts.Communicate(text, voice, rate="+15%")
+        audio_data = b""
+        async for chunk in communicate.stream():
+            if chunk["type"] == "audio":
+                audio_data += chunk["data"]
+        return base64.b64encode(audio_data).decode("utf-8")
+    except Exception as e:
+        print(f"TTS failed for text: {text[:20]}... Error: {e}")
+        return None
 
 async def inject_audio_into_script(script: list):
-    tasks = []
     for line in script:
         speaker = line.get("speaker", "Mark")
         # Azure Neural Voices
         voice = "en-US-ChristopherNeural" if speaker == "Mark" else "en-US-AriaNeural"
         text = line.get("text", "")
-        # Create generation task
-        tasks.append(text_to_base64_audio(text, voice))
-    
-    # Process concurrently for maximum speed
-    results = await asyncio.gather(*tasks)
-    
-    for i, line in enumerate(script):
-        line["audio_data"] = results[i]
+        # Process sequentially to avoid Microsoft Azure rate limiting
+        line["audio_data"] = await text_to_base64_audio(text, voice)
         
     return script
 
