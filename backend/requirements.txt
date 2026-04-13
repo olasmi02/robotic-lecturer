@@ -10,3 +10,4 @@ faiss-cpu
 pypdf
 docx2txt
 unstructured
+edge-tts
