@@ -141,7 +141,7 @@ function App() {
       setAudioScript(script);
       playAudioScript(script);
     } catch (err) {
-      alert("Failed to generate audio overview.");
+      alert("Failed to generate podcast: " + (err.response?.data?.detail || err.message));
     } finally {
       setIsGeneratingAudio(false);
     }
@@ -219,7 +219,7 @@ function App() {
       setAudioScript(combinedScript);
       playAudioScript(combinedScript); // Seamlessly play the answer, and then seamlessly resume!
     } catch (err) {
-      alert("Podcast interrupted, but failed to process question.");
+      alert("Failed to process question: " + (err.response?.data?.detail || err.message));
       setCurrentSpeakerLine("");
     } finally {
       setIsGeneratingAudio(false);
