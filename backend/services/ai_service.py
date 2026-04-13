@@ -16,8 +16,8 @@ uploaded_documents = {}
 
 # Initialization
 embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-001")
-llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.3)
-audio_llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.7)
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite", temperature=0.3)
+audio_llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash-lite", temperature=0.7)
 
 # Prompts
 template = """You are a highly intelligent, welcoming, and helpful university lecturer. 
