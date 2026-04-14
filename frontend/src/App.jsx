@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
-import { UploadCloud, FileText, Send, Sparkles, Loader2, Headphones, Play, Square, FileCheck, ClipboardList, Mic, X } from 'lucide-react';
+import { UploadCloud, FileText, Send, Sparkles, Loader2, Headphones, Play, Square, FileCheck, ClipboardList, Mic, X, Menu } from 'lucide-react';
 
 const API_BASE = "https://robotic-lecturer.onrender.com";
+
+// Send cookies with every request for session isolation
+axios.defaults.withCredentials = true;
 
 // Safely initialize SpeechRecognition
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -21,6 +24,7 @@ function App() {
   const [isListening, setIsListening] = useState(false);
   const [audioScript, setAudioScript] = useState([]);
   const [currentSpeakerLine, setCurrentSpeakerLine] = useState("");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -228,11 +232,22 @@ function App() {
 
   return (
     <div className="app-container">
+      {/* Mobile overlay */}
+      {sidebarOpen && <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
+
+      {/* Mobile hamburger */}
+      <button className="hamburger-btn" onClick={() => setSidebarOpen(v => !v)} aria-label="Toggle sidebar">
+        <Menu size={22} />
+      </button>
+
       {/* Sidebar */}
-      <aside className="sidebar glass-panel">
+      <aside className={`sidebar glass-panel${sidebarOpen ? ' sidebar-open' : ''}`}>
         <div className="logo-area">
           <Sparkles className="logo-icon" size={28} />
           <span>RoboLecturer</span>
+          <button className="sidebar-close-btn" onClick={() => setSidebarOpen(false)} aria-label="Close sidebar">
+            <X size={18} />
+          </button>
         </div>
         
         <label className={`upload-zone ${isUploading ? 'drag-active' : ''}`}>
